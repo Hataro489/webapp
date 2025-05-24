@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
-from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,15 +21,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = config('django-insecure-3vf^x#4yfpxcz*-smqd7o9f49be%$p$0x$62u9k&$9=)q^7mzh')
+SECRET_KEY = 'django-insecure-3vf^x#4yfpxcz*-smqd7o9f49be%$p$0x$62u9k&$9=)q^7mzh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = False
 
-ALLOWED_HOSTS = config('hataro.pythonanywhere.com').split(',')
+ALLOWED_HOSTS = ['hataro.pythonanywhere.com']
 
-EMAIL_HOST_USER = config('zubkowa.veronika2015@yandex.ru')
-EMAIL_HOST_PASSWORD = config('tEV#b+X9@+-uuc&')
+EMAIL_HOST_USER = 'zubkowa.veronika2015@yandex.ru'
+EMAIL_HOST_PASSWORD = 'tEV#b+X9@+-uuc&'
 
 # Application definition
 

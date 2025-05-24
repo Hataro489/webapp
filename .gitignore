@@ -11,7 +11,5 @@ myvenv/
 *.py[cod]
 *.swp
 *.DS_Store
-*.env
-.env
 db.sqlite3
 /staticfiles/
