@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Образовательная программа{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>{{ program.name }}</h1>
+        <a href="{% url 'WebSite:hse_studies_main' %}" class="btn btn-primary">
+            Вернуться
+        </a>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Описание программы</h3>
+            <p class="card-text">{{ program.description }}</p>
+            <a href="{{ program.link }}" target="_blank" class="btn btn-outline-primary">
+                Перейти на сайт Школы Дизайна
+            </a>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="card-title">Что я буду изучать</h4>
+                    <p class="card-text">{{ program.courses|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="card-title">Чему я научусь</h4>
+                    <p class="card-text">{{ program.skills|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="card-title">Преимущества программы</h4>
+                    <p class="card-text">{{ program.advantages|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="card-title">Перспективы</h4>
+                    <p class="card-text">{{ program.prospects|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Оформление заказа</title>
+{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <h2>Оформление заказа</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                Пожалуйста, исправьте ошибки ниже.
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label id = customer_name>Имя:</label>
+            {{ form.customer_name }}
+            {% if form.customer_name.errors %}
+                <div class="text-danger">{{ form.customer_name.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label id = email>Email:</label>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="text-danger">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+
+        {{ form.product }}
+        {{ form.price }}
+
+        <p><strong>Вы заказываете:</strong> {{ product }} — {{ price }} ₽</p>
+
+        <button type="submit" class="btn btn-primary">Подтвердить заказ</button>
+    </form>
+
+    <div class="mt-5">
+        <h3>История заказов</h3>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Дата</th>
+                    <th>Имя</th>
+                    <th>Email</th>
+                    <th>Товар</th>
+                    <th>Цена</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                    <td>{{ order.customer_name }}</td>
+                    <td>{{ order.email }}</td>
+                    <td>{{ order.product }}</td>
+                    <td>{{ order.price }} ₽</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">Нет заказов</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-5">
+    <h3>Статистика заказов</h3>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Метрика</th>
+                <th>Значение</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Всего заказов</td>
+                <td>{{ order_stats.total_orders }}</td>
+            </tr>
+            <tr>
+                <td>Общая выручка</td>
+                <td>{{ order_stats.total_revenue|floatformat:2 }} ₽</td>
+            </tr>
+            <tr>
+                <td>Средний чек</td>
+                <td>{{ order_stats.avg_order|floatformat:2 }} ₽</td>
+            </tr>
+            <tr>
+                <td>Максимальный заказ</td>
+                <td>{{ order_stats.max_order|floatformat:2 }} ₽</td>
+            </tr>
+            <tr>
+                <td>Минимальный заказ</td>
+                <td>{{ order_stats.min_order|floatformat:2 }} ₽</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+{% endblock %}

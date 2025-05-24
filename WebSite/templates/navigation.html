@@ -1,0 +1,35 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <img src="{% static 'images/bg.jpg' %}" width="200px">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'WebSite:home' %}">Главная</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'character_list' %}active{% endif %}" href="{% url 'WebSite:character_list' %}">Персонажи</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'get_anime' %}active{% endif %}" href="{% url 'WebSite:get_anime' %}">Аниме-адаптация</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'get_manga' %}active{% endif %}" href="{% url 'WebSite:get_manga' %}">Манга</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'affordable_artworks' %}active{% endif %}" href="{% url 'WebSite:affordable_artworks' 'Название1 - 123,Название2 - 456' 500 %}">Решение задачи</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'get_shop' %}active{% endif %}" href="{% url 'WebSite:get_shop' %}">Магазин</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'hse_studies' %}active{% endif %}" href="{% url 'WebSite:hse_studies_main' %}">Я и моя образовательная программа</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

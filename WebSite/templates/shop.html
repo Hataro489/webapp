@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    <title>Магазин</title>
+    {% endblock %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+{% block main %}
+<main>
+  <div class="container mt-5" id="toys-section">
+    <h1>Мягкие игрушки</h1>
+      <form method="get" class="form-inline mb-3" action="#toys-section">
+        <input type="text" name="toy_name" placeholder="Название" value="{{ data.filters.toy_name }}" class="form-control mr-2">
+          <select name="toy_max_price" class="form-control mr-2">
+            <option value="">Макс. цена</option>
+            <option value="300" {% if data.filters.toy_max_price == '300' %}selected{% endif %}>до 300</option>
+            <option value="500" {% if data.filters.toy_max_price == '500' %}selected{% endif %}>до 500</option>
+            <option value="1000" {% if data.filters.toy_max_price == '1000' %}selected{% endif %}>до 1000</option>
+            <option value="1500" {% if data.filters.toy_max_price == '1500' %}selected{% endif %}>до 1500</option>
+        </select>
+          <select name="toy_sort" class="form-control mr-2">
+            <option value="">Сортировка</option>
+            <option value="asc" {% if data.filters.toy_sort == 'asc' %}selected{% endif %}>По возрастанию цены</option>
+            <option value="desc" {% if data.filters.toy_sort == 'desc' %}selected{% endif %}>По убыванию цены</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Фильтровать</button>
+    </form>
+    <table class="table table-bordered" style="background-color: #FFFAFA;">
+        <thead class="thead-dark">
+            <tr>
+              <th>Фото</th>
+              <th>Название</th>
+                <th>Цена</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ts in data.toys %}
+                <tr>
+                    <td><img src="{% static ts.image %}" alt="Изображение" class="img-fluid" style="max-width: 100px;"></td>
+                    <td>{{ ts.name }}</td>
+                    <td>{{ ts.price }}</td>
+                    <td><form method="get" action="{% url 'WebSite:get_order' %}">
+                          {% csrf_token %}
+                          <input type="hidden" name="product" value="{{ ts.name }}">
+                          <input type="hidden" name="price" value="{{ ts.price }}">
+                          <button type="submit" class="btn btn-primary">Купить</button>
+                    </form>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    <div class="container mt-5" id="figurines-section">
+    <h1>Фигурки</h1>
+      <form method="get" class="form-inline mb-3" action="#figurines-section">
+      <input type="text" name="figurine_name" placeholder="Название" value="{{ data.filters.figurine_name }}" class="form-control mr-2">
+          <select name="fig_max_price" class="form-control mr-2">
+            <option value="">Макс. цена</option>
+            <option value="300" {% if data.filters.fig_max_price == '300' %}selected{% endif %}>до 300</option>
+            <option value="500" {% if data.filters.fig_max_price == '500' %}selected{% endif %}>до 500</option>
+            <option value="1000" {% if data.filters.fig_max_price == '1000' %}selected{% endif %}>до 1000</option>
+            <option value="1500" {% if data.filters.fig_max_price == '1500' %}selected{% endif %}>до 1500</option>
+            <option value="3000" {% if data.filters.fig_max_price == '3000' %}selected{% endif %}>до 3000</option>
+          </select>
+
+          <select name="fig_sort" class="form-control mr-2">
+              <option value="">Сортировка</option>
+              <option value="asc" {% if data.filters.fig_sort == 'asc' %}selected{% endif %}>По возрастанию цены</option>
+              <option value="desc" {% if data.filters.fig_sort == 'desc' %}selected{% endif %}>По убыванию цены</option>
+          </select>
+      <button type="submit" class="btn btn-primary">Фильтровать</button>
+    </form>
+    <table class="table table-bordered" style="background-color: #FFFAFA;">
+        <thead class="thead-dark">
+            <tr>
+              <th>Фото</th>
+              <th>Название</th>
+                <th>Цена</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fg in data.figurines %}
+                <tr>
+                    <td><img src="{% static fg.image %}" alt="Изображение" class="img-fluid" style="max-width: 100px;"></td>
+                    <td>{{ fg.name }}</td>
+                    <td>{{ fg.price }}</td>
+                    <td>
+                        <form method="get" action="{% url 'WebSite:get_order' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="product" value="{{ fg.name }}">
+                                <input type="hidden" name="price" value="{{ fg.price }}">
+                                <button type="submit" class="btn btn-primary">Купить</button>
+                        </form>
+                        </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    <div class="container mt-5" id="mug-section">
+    <h1>Кружки</h1>
+      <form method="get" class="form-inline mb-3" action="#mug-section">
+        <input type="text" name="mug_name" placeholder="Название" value="{{ data.filters.mug_name }}" class="form-control mr-2">
+          <select name="mug_max_price" class="form-control mr-2">
+            <option value="">Макс. цена</option>
+            <option value="300" {% if data.filters.mug_max_price == '300' %}selected{% endif %}>до 300</option>
+            <option value="500" {% if data.filters.mug_max_price == '500' %}selected{% endif %}>до 500</option>
+            <option value="1000" {% if data.filters.mug_max_price == '1000' %}selected{% endif %}>до 1000</option>
+            <option value="1500" {% if data.filters.mug_max_price == '1500' %}selected{% endif %}>до 1500</option>
+          </select>
+          <select name="mug_sort" class="form-control mr-2">
+            <option value="">Сортировка</option>
+            <option value="asc" {% if data.filters.mug_sort == 'asc' %}selected{% endif %}>По возрастанию цены</option>
+            <option value="desc" {% if data.filters.mug_sort == 'desc' %}selected{% endif %}>По убыванию цены</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Фильтровать</button>
+    </form>
+    <table class="table table-bordered" style="background-color: #FFFAFA;">
+        <thead class="thead-dark">
+            <tr>
+              <th>Фото</th>
+              <th>Название</th>
+                <th>Цена</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mg in data.mugs %}
+                <tr>
+                    <td><img src="{% static mg.image %}" alt="Изображение" class="img-fluid" style="max-width: 100px;"></td>
+                    <td>{{ mg.name }}</td>
+                    <td>{{ mg.price }}</td>
+                    <td>
+                    <form method="get" action="{% url 'WebSite:get_order' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="product" value="{{ mg.name }}">
+                        <input type="hidden" name="price" value="{{ mg.price }}">
+                        <button type="submit" class="btn btn-primary">Купить</button>
+                    </form>
+                </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+  <div class="container mt-5" id="soda-section">
+    <h1>Газировка</h1>
+    <form method="get" class="form-inline mb-3" action="#soda-section">
+        <input type="text" name="soda_name" placeholder="Название" value="{{ data.filters.soda_name }}" class="form-control mr-2">
+        <select name="soda_max_price" class="form-control mr-2">
+            <option value="">Макс. цена</option>
+            <option value="300" {% if data.filters.soda_max_price == '300' %}selected{% endif %}>до 300</option>
+            <option value="500" {% if data.filters.soda_max_price == '500' %}selected{% endif %}>до 500</option>
+            <option value="1000" {% if data.filters.soda_max_price == '1000' %}selected{% endif %}>до 1000</option>
+            <option value="1500" {% if data.filters.soda_max_price == '1500' %}selected{% endif %}>до 1500</option>
+        </select>
+          <select name="soda_sort" class="form-control mr-2">
+            <option value="">Сортировка</option>
+            <option value="asc" {% if data.filters.soda_sort == 'asc' %}selected{% endif %}>По возрастанию цены</option>
+            <option value="desc" {% if data.filters.soda_sort == 'desc' %}selected{% endif %}>По убыванию цены</option>
+          </select>
+        <button type="submit" class="btn btn-primary">Фильтровать</button>
+    </form>
+    <table class="table table-bordered" style="background-color: #FFFAFA;">
+        <thead class="thead-dark">
+            <tr>
+              <th>Фото</th>
+              <th>Название</th>
+                <th>Цена</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sd in data.soda %}
+                <tr>
+                    <td><img src="{% static sd.image %}" alt="Изображение" class="img-fluid" style="max-width: 100px;"></td>
+                    <td>{{ sd.name }}</td>
+                    <td>{{ sd.price }}</td>
+                    <td>
+                        <form method="get" action="{% url 'WebSite:get_order' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="product" value="{{ sd.name }}">
+                            <input type="hidden" name="price" value="{{ sd.price }}">
+                            <button type="submit" class="btn btn-primary">Купить</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</main>
+{% endblock %}
+</html>

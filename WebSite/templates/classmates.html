@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Однокурсники{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Мои однокурсники</h1>
+        <a href="{% url 'WebSite:hse_studies_main' %}" class="btn btn-primary">
+            Вернуться
+        </a>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-8">
+                    <input type="text" name="search" class="form-control"
+                           placeholder="Поиск по имени, e-mail или номеру телефона"
+                           value="{{ search_query }}">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Поиск</button>
+                </div>
+                <div class="col-md-2">
+                    <a href="{% url 'WebSite:classmates' %}" class="btn btn-outline-secondary w-100">Сбросить</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end mb-3">
+            <div class="dropdown">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                    id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Сортировка:
+                {% if current_sort == 'full_name' %}Имя (А-Я)
+                {% elif current_sort == '-full_name' %}Имя (Я-А)
+                {% elif current_sort == 'email' %}Email (A-Z)
+                {% elif current_sort == '-email' %}Email (Z-A)
+                {% endif %}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                <li><a class="dropdown-item" href="?sort=full_name&search={{ search_query }}">Имя (А-Я)</a></li>
+                <li><a class="dropdown-item" href="?sort=-full_name&search={{ search_query }}">Имя (Я-А)</a></li>
+                <li><a class="dropdown-item" href="?sort=email&search={{ search_query }}">Email (A-Z)</a></li>
+                <li><a class="dropdown-item" href="?sort=-email&search={{ search_query }}">Email (Z-A)</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for classmate in classmates %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="row g-0 h-100">
+                    <div class="col-md-5">
+                        {% if classmate.photo %}
+                            <img src="{{ classmate.photo }}" class="img-fluid rounded-start h-100" style="object-fit: cover;" alt="{{ classmate.full_name }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ classmate.full_name }}</h5>
+                            <p class="card-text">
+                                <i class="bi bi-envelope"></i> {{ classmate.email }}<br>
+                                <i class="bi bi-telephone"></i> {{ classmate.phone }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

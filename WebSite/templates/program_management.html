@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Менеджмент{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Менеджмент программы</h1>
+        <a href="{% url 'WebSite:hse_studies_main' %}" class="btn btn-primary">
+            Вернуться
+        </a>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <h3 class="mb-0">{{ program.name }} Менеджмент</h3>
+        </div>
+        <div class="card-body">
+            {% for person in management %}
+                <div class="row mb-4 {% if not forloop.last %}border-bottom pb-4{% endif %}">
+                    <div class="col-md-3">
+                        {% if person.photo %}
+                            <img src="{{ person.photo }}" class="img-fluid rounded" alt="{{ person.full_name }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-9">
+                        <h4>{{ person.get_role_display }}</h4>
+                        <h3>{{ person.full_name }}</h3>
+                        <p><strong>Email:</strong> {{ person.email }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
