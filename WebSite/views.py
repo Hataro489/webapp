@@ -115,16 +115,23 @@ def get_order(request):
                     product=product,
                     price=price
                 )
-                return redirect('WebSite:get_shop')
+                form = OrderForm()
+                message = "Спасибо! Ваш заказ успешно оформлен."
 
     product = request.GET.get('product') or request.POST.get('product')
     price = request.GET.get('price') or request.POST.get('price')
 
-    if not product and not request.method == 'POST':
+    if request.method == 'GET' and not product and not request.GET.get('email') and not request.GET.get('sort'):
         return redirect('WebSite:get_shop')
 
     sort = request.GET.get('sort', '-created_at')
     orders = Order.objects.all().order_by(sort)
+
+    if request.GET.get('email'):
+        orders = orders.filter(email__icontains=request.GET['email'])
+
+    if request.GET.get('customer_name'):
+        orders = orders.filter(customer_name__icontains=request.GET['customer_name'])
 
     if request.GET.get('email'):
         orders = orders.filter(email__icontains=request.GET['email'])
@@ -150,7 +157,8 @@ def get_order(request):
         'price': price,
         'form': OrderForm(initial=initial_data),
         'orders': orders,
-        'order_stats': order_stats
+        'order_stats': order_stats,
+        'message': locals().get('message', '')
     }
 
     return render(request, 'order.html', context)
